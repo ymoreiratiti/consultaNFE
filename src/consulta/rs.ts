@@ -4,9 +4,6 @@ import moment from 'moment';
 import nfeDados, { ICabecalho, IEmitente, IProduto } from '../nfe-dados';
 
 export default class Consulta {
-  private cabecalho: object = {};
-  private emitente: object = {};
-  private produtos: object = [];
   private urlFetch: URL;
   private html!: CheerioStatic;
 
@@ -25,13 +22,15 @@ export default class Consulta {
    */
   public async get(): Promise<nfeDados> {
     return this.fetchData()
-      .then((html: string): any => {
-        this.html = cheerio.load(html);
+      .then(cheerio.load)
+      .then((html: CheerioStatic): nfeDados => {
+        this.html = html;
 
-        return Promise.all([this.getCabecalho(), this.getEmitente(), this.getProdutos()]);
-      })
-      .then((res: any): nfeDados => {
-        return { cabecalho: res[0], emitente: res[1], produtos: res[2] };
+        return {
+          cabecalho: this.getCabecalho(),
+          emitente: this.getEmitente(),
+          produtos: this.getProdutos(),
+        };
       });
   }
 
