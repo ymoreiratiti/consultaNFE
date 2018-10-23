@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc && node dev.js",
+    "dev": "tsc && node ./sample/sample.js",
     "test": "mocha",
     "lint": "tslint --fix --project ."
   },
