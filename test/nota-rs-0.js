@@ -36,6 +36,7 @@ const result = {
 }
 
 describe('Nota Fiscal - RS - Chave 43181012384687000438651040002069031002069033', function () {
+  this.timeout(0);
   it('Cabeçalho', done => {
     QueryNFE
       .then(NFE => {
