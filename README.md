@@ -1,4 +1,5 @@
 [![npm version](https://badge.fury.io/js/consultanfe.svg)](https://badge.fury.io/js/consultanfe)
+[![Build Status](https://travis-ci.org/ymoreiratiti/consultaNFE.svg?branch=master)](https://travis-ci.org/ymoreiratiti/consultaNFE)
 
 # consultaNFE
 Biblioteca para retorno de uma [promise](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise) com os dados de uma NFE (Nota Fiscal Eletrônica) baseada no QRCode.
