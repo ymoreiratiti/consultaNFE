@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc && node ./sample/sample.js",
-    "test": "mocha",
+    "test": "tsc && mocha",
     "lint": "tslint --fix --project ."
   },
   "repository": {
