@@ -1,5 +1,9 @@
-[![npm version](https://badge.fury.io/js/consultanfe.svg)](https://badge.fury.io/js/consultanfe)
+[![npm version](https://badge.fury.io/js/consultanfe.svg)](https://www.npmjs.com/package/consultanfe)
 [![Build Status](https://travis-ci.org/ymoreiratiti/consultaNFE.svg?branch=master)](https://travis-ci.org/ymoreiratiti/consultaNFE)
+[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://github.com/ymoreiratiti/consultaNFE/releases/)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ymoreiratiti/consultaNFE/)
+[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/ymoreiratiti/)
 
 # consultaNFE
 Biblioteca para retorno de uma [promise](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise) com os dados de uma NFE (Nota Fiscal Eletrônica) baseada no QRCode.
