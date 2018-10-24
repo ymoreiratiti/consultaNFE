@@ -17,8 +17,13 @@
   "keywords": [
     "NFE"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "tslint --fix --project ."
+    }
+  },
   "author": "ymoreiratiti@gmail.com",
-  "license": "MIT",
+  "license": "APACHE 2.0",
   "dependencies": {
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
@@ -27,6 +32,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.9",
     "chai": "^4.2.0",
+    "husky": "^1.1.2",
     "mocha": "^5.2.0",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
