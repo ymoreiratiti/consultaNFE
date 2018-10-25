@@ -1,6 +1,6 @@
 [![npm version](https://badge.fury.io/js/consultanfe.svg)](https://www.npmjs.com/package/consultanfe)
 [![Build Status](https://travis-ci.org/ymoreiratiti/consultaNFE.svg?branch=master)](https://travis-ci.org/ymoreiratiti/consultaNFE)
-[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://github.com/ymoreiratiti/consultaNFE/releases/)
+[![GitHub release](https://img.shields.io/github/release/ymoreiratiti/consultaNFE.svg)](https://github.com/ymoreiratiti/consultaNFE/releases/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ymoreiratiti/consultaNFE/)
 [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/ymoreiratiti/)
