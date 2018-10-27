@@ -8,7 +8,11 @@ export default class Consulta {
   private html!: CheerioStatic;
 
   constructor(qrCodeURL: URL) {
-    const chaveNFe = qrCodeURL.searchParams.get('chNFe') || '';
+    let chaveNFe: string = qrCodeURL.searchParams.get('chNFe')
+      || qrCodeURL.searchParams.get('p')
+      || '';
+
+    chaveNFe = chaveNFe.split('|')[0];
 
     if (!chaveNFe.length) throw new Error('Não foi possível detectar a chave do parâmetro');
 
