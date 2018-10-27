@@ -49,15 +49,19 @@ export default class Consulta {
     //  Extraí os dados
     const objDataEmissao = moment($('td:nth-child(4) > span', scope).html() || '', format);
     const objDataEntradaSaida = moment($('td:nth-child(5) > span', scope).html() || '', format);
-    const modelo = $('td:nth-child(1) > span', scope).html() || '';
-    const numero = $('td:nth-child(3) > span', scope).html() || '';
-    const serie = $('td:nth-child(2) > span', scope).html() || '';
-    const strTotal = $('td:nth-child(6) > span', scope).html() || '0';
+    const modelo: string = $('td:nth-child(1) > span', scope).html() || '';
+    const numero: string = $('td:nth-child(3) > span', scope).html() || '';
+    const serie: string = $('td:nth-child(2) > span', scope).html() || '';
+    const strTotal: string = $('td:nth-child(6) > span', scope).html() || '0';
 
     //  Formata os dados
-    const dataEmissao = objDataEmissao.isValid() ? objDataEmissao.toDate() : null;
-    const dataEntradaSaida = objDataEntradaSaida.isValid() ? objDataEntradaSaida.toDate() : null;
-    const total = Number(strTotal.split('.').join('').replace(',', '.'));
+    const dataEmissao: Date | null = objDataEmissao.isValid()
+      ? objDataEmissao.toDate()
+      : null;
+    const dataEntradaSaida: Date | null = objDataEntradaSaida.isValid()
+      ? objDataEntradaSaida.toDate()
+      : null;
+    const total: number = Number(strTotal.split('.').join('').replace(',', '.'));
 
     return { dataEmissao, dataEntradaSaida, modelo, numero, serie, total };
   }
@@ -70,15 +74,15 @@ export default class Consulta {
     const scope = '#Emitente > fieldset > table > tbody';
 
     //  Extraí os dados
-    const nome = $('tr.col-2 > td:nth-child(2) > span', scope).html() || '';
-    const razaoSocial = $('tr.col-2 > td:nth-child(1) > span', scope).html() || '';
-    const cnpj = $('tr:nth-child(2) > td:nth-child(1) > span', scope).html() || '';
-    let rua = $('tr:nth-child(2) > td:nth-child(2) > span', scope).html() || '';
-    const bairro = $('tr:nth-child(3) > td:nth-child(1) > span', scope).html() || '';
-    const strCep = $('tr:nth-child(3) > td:nth-child(2) > span', scope).html() || '';
-    const strCidade = $('tr:nth-child(4) > td:nth-child(1) > span', scope).html() || '';
-    const telefone = $('tr:nth-child(4) > td:nth-child(2) > span', scope).html() || '';
-    const estado = $('tr:nth-child(5) > td:nth-child(1) > span', scope).html() || '';
+    const nome: string = $('tr.col-2 > td:nth-child(2) > span', scope).html() || '';
+    const razaoSocial: string = $('tr.col-2 > td:nth-child(1) > span', scope).html() || '';
+    const cnpj: string = $('tr:nth-child(2) > td:nth-child(1) > span', scope).html() || '';
+    let rua: string = $('tr:nth-child(2) > td:nth-child(2) > span', scope).html() || '';
+    const bairro: string = $('tr:nth-child(3) > td:nth-child(1) > span', scope).html() || '';
+    const strCep: string = $('tr:nth-child(3) > td:nth-child(2) > span', scope).html() || '';
+    const strCidade: string = $('tr:nth-child(4) > td:nth-child(1) > span', scope).html() || '';
+    const telefone: string = $('tr:nth-child(4) > td:nth-child(2) > span', scope).html() || '';
+    const estado: string = $('tr:nth-child(5) > td:nth-child(1) > span', scope).html() || '';
 
     //  Formata os dados
     rua = rua.split('\n').join().split('&#xFFFD;').join();
@@ -86,9 +90,9 @@ export default class Consulta {
     while (rua.length !== rua.split(',,').join(',').length) { rua = rua.split(',,').join(','); }
     rua = rua.replace(/,\s*$/, '');
 
-    const cep = Number(strCep.trim().replace('-', '')) || null;
-    const cidade = strCidade.split('-')[1].trim();
-    const ibge = Number(strCidade.split('-')[0].trim());
+    const cep: number | null = Number(strCep.trim().replace('-', '')) || null;
+    const cidade: string = strCidade.split('-')[1].trim();
+    const ibge: number = Number(strCidade.split('-')[0].trim());
 
     return { nome, razaoSocial, cnpj, rua, bairro, cep, cidade, telefone, estado, ibge };
   }
@@ -129,13 +133,13 @@ export default class Consulta {
 
     //  Formata os dados
     return lista.map((produto: any): IProduto => {
-      const descricao = produto.descricao.trim();
-      const quantidade = Number(produto.quantidade.split('.').join().replace(',', '.'));
-      const unidade = produto.unidade.trim();
-      const preco = Number(produto.preco.split('.').join().replace(',', '.'));
-      const codigo = Number(produto.codigo.trim()) || null;
-      const NCM = Number(produto.NCM.trim()) || null;
-      const eanComercial = Number(produto.eanComercial.trim()) || null;
+      const descricao: string = produto.descricao.split('&amp;').join('');
+      const quantidade: number = Number(produto.quantidade.split('.').join().replace(',', '.'));
+      const unidade: string = produto.unidade.trim();
+      const preco: number = Number(produto.preco.split('.').join().replace(',', '.'));
+      const codigo: number | null = Number(produto.codigo.trim()) || null;
+      const NCM: number | null = Number(produto.NCM.trim()) || null;
+      const eanComercial: number | null = Number(produto.eanComercial.trim()) || null;
 
       return { descricao, quantidade, unidade, preco, codigo, NCM, eanComercial };
     });
