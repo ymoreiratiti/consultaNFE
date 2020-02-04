@@ -24,18 +24,19 @@
   },
   "author": "ymoreiratiti@gmail.com",
   "license": "APACHE 2.0",
-  "dependencies": {},
-  "devDependencies": {
-    "@types/cheerio": "^0.22.12",
-    "axios": "^0.19.0",
-    "chai": "^4.2.0",
+  "dependencies": {
+    "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
-    "husky": "^3.0.0",
-    "mocha": "^6.1.4",
-    "moment": "^2.24.0",
-    "tslint": "^5.18.0",
-    "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.5.3"
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.16",
+    "chai": "^4.2.0",
+    "husky": "^4.2.1",
+    "mocha": "^7.0.1",
+    "tslint": "^6.0.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.7.5"
   },
   "directories": {
     "test": "test"

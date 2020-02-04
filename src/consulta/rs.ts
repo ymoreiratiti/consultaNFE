@@ -7,7 +7,7 @@ export default class Consulta {
   private axiosConfig: AxiosRequestConfig = {
     method: 'get',
     params: {},
-    timeout: 0,
+    timeout: 1000 * 60,
     url: 'http://www.sefaz.rs.gov.br/ASP/AAE_ROOT/NFE/SAT-WEB-NFE-COM_2.asp',
   };
   private html!: CheerioStatic;
