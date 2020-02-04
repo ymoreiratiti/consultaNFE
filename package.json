@@ -1,6 +1,6 @@
 {
   "name": "consultanfe",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Retorna os dados de uma NFE (Nota Fiscal Eletrônica), baseado no QRCode",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
