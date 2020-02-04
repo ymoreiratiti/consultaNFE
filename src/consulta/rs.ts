@@ -1,10 +1,15 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import * as cheerio from 'cheerio';
 import moment from 'moment';
 import nfeDados, { ICabecalho, IEmitente, IProduto } from '../nfe-dados';
 
 export default class Consulta {
-  private urlFetch: URL;
+  private axiosConfig: AxiosRequestConfig = {
+    method: 'get',
+    params: {},
+    timeout: 0,
+    url: 'http://www.sefaz.rs.gov.br/ASP/AAE_ROOT/NFE/SAT-WEB-NFE-COM_2.asp',
+  };
   private html!: CheerioStatic;
 
   constructor(qrCodeURL: URL) {
@@ -16,15 +21,14 @@ export default class Consulta {
 
     if (!chaveNFe.length) throw new Error('Não foi possível detectar a chave do parâmetro');
 
-    this.urlFetch = new URL('https://www.sefaz.rs.gov.br/ASP/AAE_ROOT/NFE/SAT-WEB-NFE-COM_2.asp');
-    this.urlFetch.searchParams.append('chaveNFe', chaveNFe);
-    this.urlFetch.searchParams.append('HML', 'false');
+    this.axiosConfig.params.chaveNFe = chaveNFe;
+    this.axiosConfig.params.HML = false;
   }
 
   /**
    * Retorna uma promise com os dados coletados
    */
-  public async get(): Promise<nfeDados> {
+  public async get (): Promise<nfeDados> {
     return this.fetchData()
       .then(cheerio.load)
       .then((html: CheerioStatic): nfeDados => {
@@ -41,7 +45,7 @@ export default class Consulta {
   /**
    * Dados do Cabeçalho
    */
-  private getCabecalho(): ICabecalho {
+  private getCabecalho (): ICabecalho {
     const $ = this.html;
     const format = 'DD/MM/YYYY HH:mm:ssZ';
     const scope = '#NFe > fieldset:nth-child(1) > table > tbody > tr';
@@ -69,7 +73,7 @@ export default class Consulta {
   /**
    * Dados do Emitente
    */
-  private getEmitente(): IEmitente {
+  private getEmitente (): IEmitente {
     const $ = this.html;
     const scope = '#Emitente > fieldset > table > tbody';
 
@@ -100,7 +104,7 @@ export default class Consulta {
   /**
    * Dados dos Produtos
    */
-  private getProdutos(): IProduto[] {
+  private getProdutos (): IProduto[] {
     const $ = this.html;
     let scope1;
     let scope2;
@@ -148,10 +152,10 @@ export default class Consulta {
   /**
    * Consulta no SEFAZ
    */
-  private fetchData(): any {
-    return axios.get(this.urlFetch.toString())
+  private fetchData (): any {
+    return axios(this.axiosConfig)
       .then(res => res.data)
-      .catch((err: Error) => { throw new Error('Não foi possível efetuar o download da NFE'); });
+      .catch(() => { throw new Error('Não foi possível efetuar o download da NFE'); });
   }
 
 }
