@@ -10,6 +10,7 @@ Biblioteca para retorno de uma [promise](https://developer.mozilla.org/pt-BR/doc
 
 ### Unidade Federativas Suportadas
   - Rio Grande do Sul
+  - Minas Gerais
 
 ### Instalação
 

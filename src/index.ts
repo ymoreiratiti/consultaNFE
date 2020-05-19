@@ -28,6 +28,7 @@ export = class ConsultaNFE {
   private detectUF() {
     const lstHostSefaz: { [key: string]: string } = {
       'www.sefaz.rs.gov.br': 'rs',
+      'nfce.fazenda.mg.gov.br': 'mg',
     };
 
     this.uf = lstHostSefaz[this.qrCodeURL.host.trim().toLowerCase()] || '';

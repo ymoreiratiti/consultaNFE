@@ -11,12 +11,12 @@ export interface IEmitente {
   nome: string;
   razaoSocial: string;
   cnpj: string;
-  rua: string;
-  bairro: string;
+  rua: string | null;
+  bairro: string | null;
   cep: number | null;
-  cidade: string;
+  cidade: string | null;
   ibge: number | null;
-  telefone: string;
+  telefone: string | null;
   estado: string;
 }
 
