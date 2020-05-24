@@ -1,3 +1,4 @@
 import rs from './rs';
+import mg from './mg';
 
-export default { rs };
+export default { rs, mg };
