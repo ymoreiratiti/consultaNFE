@@ -26,7 +26,7 @@ export default class Consulta {
   /**
    * Retorna uma promise com os dados coletados
    */
-  public async get(): Promise<nfeDados> {
+  public async get (): Promise<nfeDados> {
     return this.fetchData()
       .then(cheerio.load)
       .then((html: CheerioStatic): nfeDados => {
@@ -43,7 +43,7 @@ export default class Consulta {
   /**
    * Dados do Cabeçalho
    */
-  private getCabecalho(): ICabecalho {
+  private getCabecalho (): ICabecalho {
     const $ = this.html;
     const format = 'DD/MM/YYYY HH:mm:ssZ';
     const scope = '#collapse4';
@@ -64,13 +64,13 @@ export default class Consulta {
 
     const total: number = Number(strTotal.split(' ')[1].split('.').join('').replace(',', '.'));
 
-    return { dataEmissao, dataEntradaSaida: null, modelo, numero, serie, total };
+    return { dataEmissao, modelo, numero, serie, total, dataEntradaSaida: null };
   }
 
   /**
    * Dados do Emitente
    */
-  private getEmitente(): IEmitente {
+  private getEmitente (): IEmitente {
     const $ = this.html;
     const scope = '#collapse4';
 
@@ -84,20 +84,21 @@ export default class Consulta {
     return {
       nome,
       razaoSocial,
-      cnpj, rua: null,
-      bairro: null, cep:
-        null, cidade: null,
-      telefone: null,
+      cnpj,
       estado,
-      ibge:
-        null,
+      rua: null,
+      bairro: null,
+      cep: null,
+      cidade: null,
+      telefone: null,
+      ibge: null,
     };
   }
 
   /**
    * Dados dos Produtos
    */
-  private getProdutos(): IProduto[] {
+  private getProdutos (): IProduto[] {
     const $ = this.html;
     let scope;
     const lista = [];
@@ -144,7 +145,7 @@ export default class Consulta {
   /**
    * Consulta no NFE
    */
-  private fetchData(): any {
+  private fetchData (): any {
     return axios(this.axiosConfig)
       .then(res => res.data)
       .catch(() => { throw new Error('Não foi possível efetuar o download da NFE'); });
