@@ -1,5 +1,5 @@
 export interface ICabecalho {
-  modelo: string;
+  modelo: string | null;
   serie: string;
   numero: string;
   dataEmissao: Date | null;

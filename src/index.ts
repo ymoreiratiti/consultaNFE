@@ -15,7 +15,7 @@ export = class ConsultaNFE {
     this.consulta = new this.consulta[this.uf](this.qrCodeURL);
   }
 
-  /**
+   /*
    * Retorna uma promise com os dados coletados
    */
   public get() {
@@ -29,6 +29,7 @@ export = class ConsultaNFE {
     const lstHostSefaz: { [key: string]: string } = {
       'www.sefaz.rs.gov.br': 'rs',
       'nfce.fazenda.mg.gov.br': 'mg',
+      'nfce.sefaz.ce.gov.br': 'ce',
     };
 
     this.uf = lstHostSefaz[this.qrCodeURL.host.trim().toLowerCase()] || '';
