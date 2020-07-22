@@ -27,16 +27,16 @@
   "dependencies": {
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
-    "moment": "^2.26.0"
+    "moment": "^2.27.0"
   },
   "devDependencies": {
-    "@types/cheerio": "^0.22.18",
+    "@types/cheerio": "^0.22.21",
     "chai": "^4.2.0",
     "husky": "^4.2.5",
-    "mocha": "^7.2.0",
+    "mocha": "^8.0.1",
     "tslint": "^6.1.2",
     "tslint-config-airbnb": "^5.11.2",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.7"
   },
   "directories": {
     "test": "test"
