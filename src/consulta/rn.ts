@@ -121,7 +121,15 @@ export default class Consulta {
       const preco = $('td:nth-child(7) > span', scope).html();
 
       if (descricao === null) break;
-      lista.push({ descricao, quantidade, unidade, preco, codigo: null, NCM: null, eanComercial: null });
+      lista.push({
+        descricao,
+        quantidade,
+        unidade,
+        preco,
+        codigo: null,
+        NCM: null,
+        eanComercial: null,
+      });
     }
 
     //  Formata os dados
