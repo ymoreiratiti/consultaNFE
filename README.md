@@ -10,10 +10,10 @@
 Biblioteca para retorno de uma [promise](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise) com os dados de uma NFE (Nota Fiscal Eletrônica) baseada no QRCode.
 
 ### Unidade Federativas Suportadas
-
-- Rio Grande do Sul
-- Minas Gerais
-- Ceará
+- CE - Ceará
+- MG - Minas Gerais
+- RN - Rio Grande do Norte
+- RS - Rio Grande do Sul
 
 ### Instalação
 
