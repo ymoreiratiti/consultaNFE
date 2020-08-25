@@ -30,6 +30,7 @@ export = class ConsultaNFE {
       'www.sefaz.rs.gov.br': 'rs',
       'nfce.fazenda.mg.gov.br': 'mg',
       'nfce.sefaz.ce.gov.br': 'ce',
+      'nfce.set.rn.gov.br': 'rn',
     };
 
     this.uf = lstHostSefaz[this.qrCodeURL.host.trim().toLowerCase()] || '';
