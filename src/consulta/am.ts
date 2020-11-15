@@ -184,18 +184,15 @@ export default class Consulta {
             const descricao: string = $(".txtTit", "#item_" + a).html()?.trim() || '';
             let quantidade_str: string = ($(".Rqtd", "#item_" + a).text().trim().replace(/\D/g, ''));
             const unidade: string = $(".RUN", "#item_" + a).text().split(":")[1].trim();
-            let preco_str = $(".RvlUnit", "#item_" + a).text().trim().replace(/\D/g, '');
+            let preco_str = $(".RvlUnit", "#item_" + a).text().trim().replace( /\t/g, '').replace(/\n/g, '').replace(' ', '').replace('Vl.Unit.:', '');
             const codigo: number | null = null;
-            let valor_str: string = $(".valor", "#item_" + a).html()?.trim().replace(/\D/g, '') || '';
+            let valor_str: string = $(".valor", "#item_" + a).html()?.trim().replace( /\t/g, '').replace(/\n/g, '').replace(' ', '') || '';
 
-
-            //conversoes
-            preco_str = preco_str.concat('0'.repeat(4 - preco_str.length));
-            valor_str = valor_str.concat('0'.repeat(4 - valor_str.length));
+            //conversao
             quantidade_str = unidade.includes('UN') ? quantidade_str : quantidade_str.concat('0'.repeat(4 - quantidade_str.length));
 
-            const preco: number = Number(preco_str) / MIL;
-            const valor_total: number | null = Number(valor_str) / MIL || null
+            const preco: number = Number(preco_str.replace(',', '.'));
+            const valor_total: number | null = Number(valor_str.replace(',', '.')) || null
             const quantidade: number = unidade.includes('UN') ? Number(quantidade_str) : Number(quantidade_str) / MIL;
 
             lista.push({ descricao, quantidade, unidade, preco, codigo, NCM: null, eanComercial: null, valor_total });
