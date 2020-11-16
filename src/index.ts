@@ -31,7 +31,7 @@ export = class ConsultaNFE {
       'nfce.fazenda.mg.gov.br': 'mg',
       'nfce.sefaz.ce.gov.br': 'ce',
       'nfce.set.rn.gov.br': 'rn',
-      'sistemas.sefaz.am.gov.br': 'am'
+      'sistemas.sefaz.am.gov.br': 'am',
     };
 
     this.uf = lstHostSefaz[this.qrCodeURL.host.trim().toLowerCase()] || '';

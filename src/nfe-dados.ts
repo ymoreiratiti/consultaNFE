@@ -13,7 +13,7 @@ export interface IEmitente {
   cnpj: string;
   rua: string | null;
   bairro: string | null;
-  numero?: string | null
+  numero?: string | null;
   cep: number | null;
   cidade: string | null;
   ibge: number | null;
