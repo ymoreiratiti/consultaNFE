@@ -49,8 +49,8 @@ export default class Consulta {
     const scope = '#divConteudoDanfe';
 
     //  Extraí os dados
-    const objDataEmissaoStr = $('#lblDataEmissao', scope).html() || '';
-    const objDataEmissao = moment(objDataEmissaoStr.substr(22), format);
+    const objDataEmissaoStr = $('#lblDataEmissao', scope).html()?.trim() || '';
+    const objDataEmissao = moment.utc(objDataEmissaoStr.substr(22), format);
     const modelo: string = '';
     const numeroSerie: string = $('#lblNumeroSerie', scope).html() || '';
 
@@ -66,7 +66,7 @@ export default class Consulta {
 
     //  Formata os dados
     const dataEmissao: Date | null = objDataEmissao.isValid()
-      ? objDataEmissao.toDate()
+      ? objDataEmissao.add(3, 'hours').toDate()
       : null;
 
     const total: number = Number(strTotal.split('.').join('').replace(',', '.'));

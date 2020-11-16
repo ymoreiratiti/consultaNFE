@@ -49,8 +49,9 @@ export default class Consulta {
     const scope = '#collapse4';
 
     //  Extraí os dados
-    const objDataEmissao = moment($('table:nth-of-type(3) > tbody > tr > td:nth-child(4)', scope)
-      .html() || '',              format);
+    const objDataEmissaoStr = $('table:nth-of-type(3) > tbody > tr > td:nth-child(4)', scope)
+      .html();
+    const objDataEmissao = moment.utc(objDataEmissaoStr || '', format);
     const modelo: string = $('table:nth-of-type(3) > tbody > tr > td:nth-child(1)', scope).html() || '';
     const numero: string = $('table:nth-of-type(3) > tbody > tr > td:nth-child(3)', scope).html() || '';
     const serie: string = $('table:nth-of-type(3) > tbody > tr > td:nth-child(2)', scope).html() || '';
@@ -59,7 +60,7 @@ export default class Consulta {
 
     //  Formata os dados
     const dataEmissao: Date | null = objDataEmissao.isValid()
-      ? objDataEmissao.toDate()
+      ? objDataEmissao.add(3, 'hours').toDate()
       : null;
 
     const total: number = Number(strTotal.split(' ')[1].split('.').join('').replace(',', '.'));

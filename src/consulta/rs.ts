@@ -51,8 +51,8 @@ export default class Consulta {
     const scope = '#NFe > fieldset:nth-child(1) > table > tbody > tr';
 
     //  Extraí os dados
-    const objDataEmissao = moment($('td:nth-child(4) > span', scope).html() || '', format);
-    const objDataEntradaSaida = moment($('td:nth-child(5) > span', scope).html() || '', format);
+    const objDataEmissao = moment.utc($('td:nth-child(4) > span', scope).html() || '', format);
+    const objDataEntradaSaida = moment.utc($('td:nth-child(5) > span', scope).html() || '', format);
     const modelo: string = $('td:nth-child(1) > span', scope).html() || '';
     const numero: string = $('td:nth-child(3) > span', scope).html() || '';
     const serie: string = $('td:nth-child(2) > span', scope).html() || '';

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import * as cheerio from 'cheerio';
 import moment from 'moment';
-import nfeDados, { ICabecalho, IEmitente, IProduto } from '../nfe-dados';
+import { ICabecalho, IEmitente, IProduto } from '../nfe-dados';
 
 export default class Consulta {
   private axiosConfig: AxiosRequestConfig = {
