@@ -13,6 +13,7 @@ export interface IEmitente {
   cnpj: string;
   rua: string | null;
   bairro: string | null;
+  numero?: string | null
   cep: number | null;
   cidade: string | null;
   ibge: number | null;
@@ -28,6 +29,7 @@ export interface IProduto {
   codigo: number | null;
   NCM: number | null;
   eanComercial: number | null;
+  valor_total?: number | null;
 }
 
 export default interface IRootObject {
