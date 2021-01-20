@@ -82,10 +82,16 @@ export default class Consulta {
     const scope = '#divConteudoDanfe > .bloco:nth-of-type(2) > table > tbody';
 
     //  Extraí os dados
-    const nome: string = $('tr:nth-of-type(3) > td > span', scope).html() || '';
-    const razaoSocial: string = $('tr:nth-of-type(2) > td > span', scope)
+    let nome: string = $('tr:nth-of-type(3) > td > span', scope).html() || '';
+    let razaoSocial: string = $('tr:nth-of-type(2) > td > span', scope)
       .html() || '';
-    const cnpj: string = $('tr:nth-of-type(4) > td > span', scope).html() || '';
+    let cnpj: string = $('tr:nth-of-type(4) > td > span', scope).html() || '';
+
+    // Pegando a informação correta do CNPJ em notas que não possuem o nome fantasia do emitente
+    if (!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/s.test(cnpj.substr(6))) {
+      cnpj = nome;
+      nome = `NOME FANTASIA: ${razaoSocial.substr(19)}`;
+    }
 
     return {
       nome: nome.substr(15),
@@ -118,7 +124,8 @@ export default class Consulta {
       const descricao = $('td:nth-child(3) > span', scope).html();
       const quantidade = $('td:nth-child(4) > span', scope).html();
       const unidade = $('td:nth-child(5) > span', scope).html();
-      const preco = $('td:nth-child(7) > span', scope).html();
+      const strPreco = $('td:nth-child(7) > span', scope).html() || '0';
+      const preco = strPreco.split('.').join('').replace(',', '.');
 
       if (descricao === null) break;
       lista.push({
