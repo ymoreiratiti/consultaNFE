@@ -50,7 +50,7 @@ export default class Consulta {
 
     //  Extraí os dados
     const objDataEmissaoStr = $('#lblDataEmissao', scope).html()?.trim() || '';
-    const objDataEmissao = moment.utc(objDataEmissaoStr.substr(22), format);
+    const objDataEmissao = moment.utc(objDataEmissaoStr.substr(-19), format);
     const modelo: string = '';
     const numeroSerie: string = $('#lblNumeroSerie', scope).html() || '';
 
