@@ -83,7 +83,7 @@ export default class Consulta {
 
     //  Extraí os dados
     let nome: string = $('tr:nth-of-type(3) > td > span', scope).html() || '';
-    let razaoSocial: string = $('tr:nth-of-type(2) > td > span', scope)
+    const razaoSocial: string = $('tr:nth-of-type(2) > td > span', scope)
       .html() || '';
     let cnpj: string = $('tr:nth-of-type(4) > td > span', scope).html() || '';
 
