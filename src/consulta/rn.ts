@@ -87,16 +87,23 @@ export default class Consulta {
       .html() || '';
     let cnpj: string = $('tr:nth-of-type(4) > td > span', scope).html() || '';
 
+    // pegando inicio da string razao social
+    const posicaoInicialCnpj = 6;
+    const posicaoInicialRazaoSocial = razaoSocial.indexOf(':') + 2;
+
     // Pegando a informação correta do CNPJ em notas que não possuem o nome fantasia do emitente
-    if (!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/s.test(cnpj.substr(6))) {
+    if (!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/s.test(cnpj.substr(posicaoInicialCnpj))) {
       cnpj = nome;
-      nome = `NOME FANTASIA: ${razaoSocial.substr(19)}`;
+      nome = `NOME FANTASIA: ${razaoSocial.substr(posicaoInicialRazaoSocial)}`;
     }
 
+    // pegando inicio da string nome fantasia
+    const posicaoInicialNome = nome.indexOf(':') + 2;
+
     return {
-      nome: nome.substr(15),
-      razaoSocial: razaoSocial.substr(19),
-      cnpj: cnpj.substr(6),
+      nome: nome.substr(posicaoInicialNome),
+      razaoSocial: razaoSocial.substr(posicaoInicialRazaoSocial),
+      cnpj: cnpj.substr(posicaoInicialCnpj),
       estado: 'RN',
       rua: null,
       bairro: null,
