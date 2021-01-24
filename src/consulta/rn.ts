@@ -50,7 +50,7 @@ export default class Consulta {
 
     //  Extraí os dados
     const objDataEmissaoStr = $('#lblDataEmissao', scope).html()?.trim() || '';
-    const objDataEmissao = moment.utc(objDataEmissaoStr.substr(22), format);
+    const objDataEmissao = moment.utc(objDataEmissaoStr.substr(-19), format);
     const modelo: string = '';
     const numeroSerie: string = $('#lblNumeroSerie', scope).html() || '';
 
@@ -82,15 +82,28 @@ export default class Consulta {
     const scope = '#divConteudoDanfe > .bloco:nth-of-type(2) > table > tbody';
 
     //  Extraí os dados
-    const nome: string = $('tr:nth-of-type(3) > td > span', scope).html() || '';
+    let nome: string = $('tr:nth-of-type(3) > td > span', scope).html() || '';
     const razaoSocial: string = $('tr:nth-of-type(2) > td > span', scope)
       .html() || '';
-    const cnpj: string = $('tr:nth-of-type(4) > td > span', scope).html() || '';
+    let cnpj: string = $('tr:nth-of-type(4) > td > span', scope).html() || '';
+
+    // pegando inicio da string razao social
+    const posicaoInicialCnpj = 6;
+    const posicaoInicialRazaoSocial = razaoSocial.indexOf(':') + 2;
+
+    // Pegando a informação correta do CNPJ em notas que não possuem o nome fantasia do emitente
+    if (!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/s.test(cnpj.substr(posicaoInicialCnpj))) {
+      cnpj = nome;
+      nome = `NOME FANTASIA: ${razaoSocial.substr(posicaoInicialRazaoSocial)}`;
+    }
+
+    // pegando inicio da string nome fantasia
+    const posicaoInicialNome = nome.indexOf(':') + 2;
 
     return {
-      nome: nome.substr(15),
-      razaoSocial: razaoSocial.substr(19),
-      cnpj: cnpj.substr(6),
+      nome: nome.substr(posicaoInicialNome),
+      razaoSocial: razaoSocial.substr(posicaoInicialRazaoSocial),
+      cnpj: cnpj.substr(posicaoInicialCnpj),
       estado: 'RN',
       rua: null,
       bairro: null,
@@ -118,7 +131,8 @@ export default class Consulta {
       const descricao = $('td:nth-child(3) > span', scope).html();
       const quantidade = $('td:nth-child(4) > span', scope).html();
       const unidade = $('td:nth-child(5) > span', scope).html();
-      const preco = $('td:nth-child(7) > span', scope).html();
+      const strPreco = $('td:nth-child(7) > span', scope).html() || '0';
+      const preco = strPreco.split('.').join('').replace(',', '.');
 
       if (descricao === null) break;
       lista.push({
