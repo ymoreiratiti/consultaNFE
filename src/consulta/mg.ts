@@ -65,7 +65,7 @@ export default class Consulta {
 
     const total: number = Number(strTotal.split(' ')[1].split('.').join('').replace(',', '.'));
 
-    return { dataEmissao, modelo, numero, serie, total, dataEntradaSaida: null };
+    return { dataEmissao, modelo, numero, serie, total, tributacao: null, dataEntradaSaida: null };
   }
 
   /**
@@ -115,7 +115,8 @@ export default class Consulta {
       let quantidade = $('td:nth-child(2)', scope).html();
       const unidade = $('td:nth-child(3)', scope).html();
       const preco = $('td:nth-child(4)', scope).html();
-
+      let quantidadeN;
+      
       const selectorCodigo = 'td:nth-child(1)';
       let codigo = $(selectorCodigo, scope).html();
       if (codigo) {
@@ -124,17 +125,18 @@ export default class Consulta {
       if (quantidade) {
         const quantidadeArr: string[] = quantidade.split(' ');
         quantidade = quantidadeArr[quantidadeArr.length - 1].replace(')', '');
+        
+        quantidadeN = parseFloat(quantidade);
       }
+
       if (descricao === null) break;
-      lista.push({ descricao, quantidade, unidade, preco, codigo, NCM: null, eanComercial: null });
+      lista.push({ descricao, quantidadeN, unidade, preco, codigo, NCM: null, eanComercial: null });
     }
 
     //  Formata os dados
     return lista.map((produto: any): IProduto => {
       const descricao: string = produto.descricao.split('\n')[0];
-
-      const quantidade: number = Number(produto.quantidade.replace('.', '').replace(',', '.'));
-
+      const quantidade: number = Number(produto.quantidadeN);
       const unidade: string = produto.unidade.split(' ')[1];
       const preco: number = Number(produto.preco.split(' ')[4].split('.').join().replace(',', '.'));
       const codigo: number | null = Number(produto.codigo) || null;
