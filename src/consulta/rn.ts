@@ -71,7 +71,7 @@ export default class Consulta {
 
     const total: number = Number(strTotal.split('.').join('').replace(',', '.'));
 
-    return { dataEmissao, modelo, numero, serie, total, dataEntradaSaida: null };
+    return { dataEmissao, modelo, numero, serie, total, tributacao: null, dataEntradaSaida: null };
   }
 
   /**

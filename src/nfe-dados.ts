@@ -4,6 +4,7 @@ export interface ICabecalho {
   numero: string;
   dataEmissao: Date | null;
   dataEntradaSaida: Date | null;
+  tributacao: number | null;
   total: number;
 }
 
@@ -13,12 +14,12 @@ export interface IEmitente {
   cnpj: string;
   rua: string | null;
   bairro: string | null;
-  numero?: string | null;
-  cep: number | null;
   cidade: string | null;
-  ibge: number | null;
-  telefone: string | null;
   estado: string;
+  telefone: string | null;
+  cep: number | null;
+  ibge: number | null;
+  numero?: string | null;
 }
 
 export interface IProduto {

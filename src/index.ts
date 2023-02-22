@@ -1,9 +1,9 @@
 import consulta from './consulta';
 
 export = class ConsultaNFE {
-  private qrCodeURL: URL;
-  private uf: string = '';
-  private consulta: any = consulta;
+  public qrCodeURL: URL;
+  public uf: string = '';
+  public consulta: any = consulta;
 
   /**
    * Constructor
@@ -25,13 +25,15 @@ export = class ConsultaNFE {
   /**
    * Detecta a qual Unidade Federativa ele pertence
    */
-  private detectUF() {
+  public detectUF() {
     const lstHostSefaz: { [key: string]: string } = {
       'www.sefaz.rs.gov.br': 'rs',
       'nfce.fazenda.mg.gov.br': 'mg',
+      'portalsped.fazenda.mg.gov.br': 'mg',
       'nfce.sefaz.ce.gov.br': 'ce',
       'nfce.set.rn.gov.br': 'rn',
       'sistemas.sefaz.am.gov.br': 'am',
+      'www4.fazenda.rj.gov.br': 'rj',
     };
 
     this.uf = lstHostSefaz[this.qrCodeURL.host.trim().toLowerCase()] || '';

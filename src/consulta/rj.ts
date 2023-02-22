@@ -2,41 +2,43 @@ import axios, { AxiosRequestConfig } from 'axios';
 import * as cheerio from 'cheerio';
 import moment from 'moment';
 import nfeDados, { ICabecalho, IEmitente, IProduto } from '../nfe-dados';
+import querystring from 'querystring';
 
 export default class Consulta {
   private axiosConfig: AxiosRequestConfig = {
-    method: 'post',
+    method: 'get',
     params: {},
     timeout: 1000 * 60,
-    url: 'http://nfce.sefaz.ce.gov.br/nfce/api/notasFiscal/qrcodev2/',
+    url: 'http://www4.fazenda.rj.gov.br/consultaNFCe/QRCode',
   };
   private html!: CheerioStatic;
-
+  private code: string = '';
   constructor(qrCodeURL: URL) {
-    const chaveNFe: string[] =
-      qrCodeURL.searchParams.get('p')?.split('|') || [];
+    const chaveNFe: string =
+      qrCodeURL.searchParams.get('chNFe') ||
+      qrCodeURL.searchParams.get('p') ||
+      '';
 
-    if (!chaveNFe.length) throw new Error('Não foi possível detectar a chave do parâmetro');
+    if (!chaveNFe.length) {
+      throw new Error('Não foi possível detectar a chave do parâmetro');
+    }
 
-    this.axiosConfig.data = {
-      chave_acesso: chaveNFe[0],
-      versao_qrcode: chaveNFe[1],
-      tipo_ambiente: chaveNFe[2],
-      identificador_csc: chaveNFe[3],
-      codigo_hash: chaveNFe[4],
-    };
+    this.axiosConfig.params.p = this.code = chaveNFe;
     this.axiosConfig.params.HML = false;
   }
 
   /**
    * Retorna uma promise com os dados coletados
    */
-  public async get (): Promise<nfeDados> {
-    return this.fetchData()
+  public async get(): Promise<nfeDados> {
+    const token = await this.fetchToken();
+
+    return this.fetchData(token.jsession, token.viewState)
       .then(cheerio.load)
       .then(
         (html: CheerioStatic): nfeDados => {
           this.html = html;
+
           return {
             cabecalho: this.getCabecalho(),
             emitente: this.getEmitente(),
@@ -55,16 +57,19 @@ export default class Consulta {
     const scope = '#infos > div:nth-child(1) > ul > li';
     //  Extraí os dados
     const objDataEmissao = moment.utc(
-      $('strong:nth-of-type(5)', scope)[0].next.data || '',
+      $('strong:nth-of-type(4)', scope)[0].next.data || '',
       format,
     );
     const numero: string =
-      $('strong:nth-of-type(3)', scope)[0].next.data || '';
+      $('strong:nth-of-type(2)', scope)[0].next.data || '';
     const serie: string =
-      $('strong:nth-of-type(4)', scope)[0].next.data || '';
+      $('strong:nth-of-type(3)', scope)[0].next.data || '';
     const strTotal: string =
       $('#totalNota > #linhaTotal:nth-child(2) > span').html() ||
       '0';
+    const strTributacao: string =
+    $('#totalNota > #linhaTotal:nth-child(6) > span').html() ||
+    '0';
     //  Formata os dados
     const dataEmissao: Date | null = objDataEmissao.isValid()
       ? objDataEmissao.add(3, 'hours').toDate()
@@ -73,12 +78,16 @@ export default class Consulta {
     const total: number = Number(
       strTotal.split('.').join('').replace(',', '.'),
     );
+
+    const tributacao: number = Number(
+      strTributacao.split('.').join('').replace(',', '.'),
+    );
     return {
       dataEmissao,
       numero,
       serie,
       total,
-      tributacao: null,
+      tributacao,
       dataEntradaSaida: null,
       modelo: null,
     };
@@ -96,16 +105,16 @@ export default class Consulta {
     const razaoSocial: string =
       $('div:nth-child(1)', scope).html() || '';
 
-    let cnpj: string = $('div:nth-child(2)', scope).html() || '';
-    const endereco: string = $('div:nth-child(3)', scope).html() || '';
+    let cnpj: string = this.filter($('div:nth-child(2)', scope).html() || '');
+    const endereco: string = $('div:nth-child(3)', scope).html()?.replace(/\t/g, '') || '';
 
     //  Formata os dados
-    cnpj = cnpj.split(':')[1];
+    cnpj = this.filter(cnpj.split(':')[1]);
     const aux = endereco.split(',');
-    const rua: string = `${aux[0]}, ${aux[1]}`;
-    const bairro: string = aux[3];
-    const estado: string = aux[4];
-    const cidade: string = aux[5];
+    const rua: string = this.filter(`${aux[0]}, ${aux[1]}`);
+    const bairro: string = this.filter(aux[3]);
+    const estado: string = this.filter(aux[4]);
+    const cidade: string = this.filter(aux[5]);
 
     return {
       nome,
@@ -138,7 +147,6 @@ export default class Consulta {
       const descricao = $('span:nth-of-type(1)', scope).html();
       if (descricao === null) break;
       const codigo = $('span:nth-of-type(2)', scope).text();
-      // console.log($("span:nth-of-type(5) > strong", scope)[0].next.data);
       const quantidade = $('span:nth-of-type(3) > strong', scope)[0]
         .next.data;
       const unidade = $('span:nth-of-type(4) > strong', scope)[0]
@@ -192,16 +200,58 @@ export default class Consulta {
       },
     );
   }
+
+  private filter(word : string): string {
+    return word
+      .replace(/\t/g, '')
+      .replace(/\n/g, '')
+      .replace('&#xFFFD;', 'ó')
+      .trim();
+
+  }
+
+  /**
+   * Obter Token
+   */
+  private fetchToken(): any {
+    return axios(this.axiosConfig)
+      .then((res) => {
+        const $ = cheerio.load(res.data);
+        return {
+          viewState: $('input[id="javax.faces.ViewState"]').val(),
+          jsession: res.headers['set-cookie'][0].split('"')[1],
+        };
+      })
+      .catch(() => {
+        throw new Error('Não foi possível obter o token de acesso');
+      });
+  }
+
   /**
    * Consulta no NFE
    */
-  private fetchData (): any {
-    return axios(this.axiosConfig)
-      .then(res => res.data.xml)
+  private fetchData(jsession: string, viewState: string): any {
+
+    const config: AxiosRequestConfig = {
+      method: 'post',
+      url:
+        `http://www4.fazenda.rj.gov.br/consultaNFCe/paginas/consultaQRCode.faces;jsessionid=${jsession}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Cookie: `JSESSIONID="${jsession}"; f5_cspm=1234;`,
+      },
+      data: querystring.stringify({
+        formulario: 'formulario',
+        'javax.faces.ViewState': viewState,
+        btSubmitQRCode: 'btSubmitQRCode',
+        p: this.code,
+      }),
+    };
+
+    return axios(config)
+      .then(res => res.data)
       .catch(() => {
-        throw new Error(
-          'Não foi possível efetuar o download da NFE',
-        );
+        throw new Error('Não foi possível efetuar o download da NFE');
       });
   }
 }
